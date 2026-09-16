@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   checkia:
     image: ghcr.io/zegnhabi/checkia:latest
@@ -13,17 +15,30 @@ services:
       - PAYPAL_SECRET=${PAYPAL_SECRET:-}
       - PAYPAL_AMOUNT=${PAYPAL_AMOUNT:-1.00}
       - PAYPAL_CURRENCY=${PAYPAL_CURRENCY:-USD}
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     networks:
-      - traefik_network
+      - traefik_public
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.checkia.rule=Host(`${DOMAIN}`)"
-      - "traefik.http.routers.checkia.entrypoints=websecure"
-      - "traefik.http.routers.checkia.tls=true"
-      - "traefik.http.routers.checkia.tls.certresolver=letsencrypt"
-      - "traefik.http.services.checkia.loadbalancer.server.port=3000"
+      - traefik.enable=true
+      - traefik.http.routers.checkia.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.checkia.service=checkia
+      - traefik.http.routers.checkia.entrypoints=websecure
+      - traefik.http.routers.checkia.tls=true
+      - traefik.http.services.checkia.loadbalancer.server.port=3000
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.checkia.rule=Host(`${DOMAIN}`)
+        - traefik.http.routers.checkia.service=checkia
+        - traefik.http.routers.checkia.entrypoints=websecure
+        - traefik.http.routers.checkia.tls=true
+        - traefik.http.services.checkia.loadbalancer.server.port=3000
 
 networks:
-  traefik_network:
+  traefik_public:
     external: true
-    name: ${TRAEFIK_NETWORK:-traefik_default}
