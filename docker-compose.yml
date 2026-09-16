@@ -25,7 +25,7 @@ services:
       - traefik_public
     labels:
       - traefik.enable=true
-      - traefik.http.routers.checkia.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.checkia.rule=Host(`checkia.mvps.com.mx`)
       - traefik.http.routers.checkia.service=checkia
       - traefik.http.routers.checkia.entrypoints=websecure
       - traefik.http.routers.checkia.tls=true
@@ -33,7 +33,7 @@ services:
     deploy:
       labels:
         - traefik.enable=true
-        - traefik.http.routers.checkia.rule=Host(`${DOMAIN}`)
+        - traefik.http.routers.checkia.rule=Host(`checkia.mvps.com.mx`)
         - traefik.http.routers.checkia.service=checkia
         - traefik.http.routers.checkia.entrypoints=websecure
         - traefik.http.routers.checkia.tls=true
