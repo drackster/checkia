@@ -1,0 +1,17 @@
+services:
+  checkia:
+    image: ghcr.io/zegnhabi/checkia:latest
+    container_name: checkia
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - PAYPAL_ENABLED=${PAYPAL_ENABLED:-false}
+      - PAYPAL_MODE=${PAYPAL_MODE:-sandbox}
+      - PAYPAL_CLIENT_ID=${PAYPAL_CLIENT_ID:-}
+      - PAYPAL_SECRET=${PAYPAL_SECRET:-}
+      - PAYPAL_AMOUNT=${PAYPAL_AMOUNT:-1.00}
+      - PAYPAL_CURRENCY=${PAYPAL_CURRENCY:-USD}
