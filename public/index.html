@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CheckIA - Verificador de Contenido IA</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">&#x1F50D;</span>
+        <h1>CheckIA</h1>
+      </div>
+      <p class="tagline">Verifica si tu contenido multimedia fue generado o manipulado por IA</p>
+    </header>
+
+    <main class="main">
+      <!-- Upload Section -->
+      <section id="uploadSection" class="upload-section">
+        <div id="dropZone" class="drop-zone">
+          <div class="drop-zone-content">
+            <div class="upload-icon">&#x1F4E4;</div>
+            <h2>Arrastra tu imagen o video aqui</h2>
+            <p>o haz clic para seleccionar un archivo</p>
+            <p class="file-types">Formatos: JPG, PNG, GIF, WebP, MP4, MOV, WebM (max 50MB)</p>
+          </div>
+          <input type="file" id="fileInput" accept="image/*,video/*" hidden>
+        </div>
+
+        <div id="previewSection" class="preview-section hidden">
+          <div class="preview-container">
+            <div id="mediaPreview" class="media-preview"></div>
+            <div class="preview-info">
+              <p id="fileName" class="file-name"></p>
+              <p id="fileSize" class="file-size"></p>
+              <button id="changeFile" class="btn-secondary">Cambiar archivo</button>
+            </div>
+          </div>
+          <div class="ai-selector">
+            <span class="ai-selector-label">Selecciona los motores de IA:</span>
+            <div class="ai-checkbox-group">
+              <label class="ai-checkbox-label">
+                <input type="checkbox" id="checkOpenAI" class="ai-checkbox" value="openai" checked>
+                <span class="checkbox-custom"></span>
+                <span class="ai-label-text">ChatGPT (GPT-4o)</span>
+              </label>
+              <label class="ai-checkbox-label">
+                <input type="checkbox" id="checkGemini" class="ai-checkbox" value="gemini" checked>
+                <span class="checkbox-custom"></span>
+                <span class="ai-label-text">Gemini (Google)</span>
+              </label>
+            </div>
+          </div>
+          <div id="paymentSection" class="payment-section hidden">
+            <div id="paypalButtonContainer"></div>
+          </div>
+          <button id="analyzeBtn" class="btn-primary">
+            <span class="btn-text" id="analyzeBtnText">Analizar con 2 IAs</span>
+            <span class="btn-icon">&#x1F9E0;</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Loading Section -->
+      <section id="loadingSection" class="loading-section hidden">
+        <div class="loading-card">
+          <div id="loadingMediaPreview" class="loading-media-preview"></div>
+          <div class="spinner"></div>
+          <h2>Analizando tu contenido...</h2>
+          <p id="loadingDescription">Enviando a las IAs seleccionadas para su verificación</p>
+          <div class="progress-bars">
+            <div id="progressItemOpenAI" class="progress-item">
+              <span class="ai-name">ChatGPT (GPT-4o)</span>
+              <div class="progress-bar">
+                <div id="progress-openai" class="progress-fill"></div>
+              </div>
+              <span id="status-openai" class="ai-status">Enviando...</span>
+            </div>
+            <div id="progressItemGemini" class="progress-item">
+              <span class="ai-name">Gemini</span>
+              <div class="progress-bar">
+                <div id="progress-gemini" class="progress-fill"></div>
+              </div>
+              <span id="status-gemini" class="ai-status">Enviando...</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results Section -->
+      <section id="resultsSection" class="results-section hidden">
+        <div id="resultMediaContainer" class="result-media-container">
+          <div id="resultMediaPreview" class="media-preview"></div>
+          <div class="result-media-info">
+            <span id="resultFileName" class="file-name"></span>
+            <span id="resultFileSize" class="file-size"></span>
+          </div>
+        </div>
+
+        <div id="mainResult" class="main-result hidden"></div>
+
+        <div id="individualResults" class="individual-results"></div>
+
+        <button id="newAnalysis" class="btn-primary">
+          <span class="btn-text">Nuevo Analisis</span>
+          <span class="btn-icon">&#x1F504;</span>
+        </button>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>CheckIA - Utiliza multiples IAs para verificar la autenticidad del contenido multimedia</p>
+      <p class="disclaimer">Los resultados son indicativos. Ningun sistema es 100% preciso.</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
