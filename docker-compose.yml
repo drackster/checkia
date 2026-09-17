@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  checkia:
+    image: ghcr.io/zegnhabi/checkia:latest
+    container_name: checkia
+    restart: unless-stopped
+    environment:
+      - PORT=3000
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - PAYPAL_ENABLED=${PAYPAL_ENABLED:-false}
+      - PAYPAL_MODE=${PAYPAL_MODE:-sandbox}
+      - PAYPAL_CLIENT_ID=${PAYPAL_CLIENT_ID:-}
+      - PAYPAL_SECRET=${PAYPAL_SECRET:-}
+      - PAYPAL_AMOUNT=${PAYPAL_AMOUNT:-1.00}
+      - PAYPAL_CURRENCY=${PAYPAL_CURRENCY:-USD}
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - traefik_public
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.checkia.rule=Host(`checkia.mvps.com.mx`)
+      - traefik.http.routers.checkia.service=checkia
+      - traefik.http.routers.checkia.entrypoints=websecure
+      - traefik.http.routers.checkia.tls=true
+      - traefik.http.services.checkia.loadbalancer.server.port=3000
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.checkia.rule=Host(`checkia.mvps.com.mx`)
+        - traefik.http.routers.checkia.service=checkia
+        - traefik.http.routers.checkia.entrypoints=websecure
+        - traefik.http.routers.checkia.tls=true
+        - traefik.http.services.checkia.loadbalancer.server.port=3000
+
+networks:
+  traefik_public:
+    external: true
